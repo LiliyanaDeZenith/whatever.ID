@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Luxyne - Convert gambar dari link</title>
+<link rel="icon" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap">
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<svg style="position:absolute;width:0;height:0" aria-hidden="true"><defs>
+<symbol id="logo" viewBox="0 0 32 32"><path d="M9 4h14l7 8-14 17L2 12z" fill="none" stroke="#C9A227" stroke-width="1.5" stroke-linejoin="round"/><path d="M13.5 9v10H19" fill="none" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-convert" viewBox="0 0 24 24"><path d="M17 3l4 4-4 4M21 7H8M7 21l-4-4 4-4M3 17h13"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="1.5"/><path d="M21 15l-5-5L5 21"/></symbol>
+<symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="M16 10l6-3v10l-6-3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+<symbol id="i-rot" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path d="M12 3v18M8 7l-5 5 5 5V7zM16 7l5 5-5 5V7z"/></symbol>
+</defs></svg>
+
+<header><div class="wrap bar">
+<a class="brand" href="./"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg><span>LUXYNE</span></a>
+<nav>
+<button data-tab="convert" aria-label="Convert" aria-current="true"><svg class="i"><use href="#i-convert"/></svg><span>Convert</span></button>
+<button data-tab="photos" aria-label="Foto"><svg class="i"><use href="#i-image"/></svg><span>Foto</span></button>
+<button data-tab="videos" aria-label="Video"><svg class="i"><use href="#i-video"/></svg><span>Video</span></button>
+</nav></div></header>
+
+<main class="wrap">
+<section id="convert">
+<h1>Convert gambar dari link</h1>
+<p class="sub">Tempel link gambar atau upload sampai 10 foto. Semua diproses di browser, foto tidak dikirim ke server.</p>
+<div class="grid">
+<div>
+<form id="uf" class="row"><input id="u" type="url" placeholder="https://contoh.com/foto.jpg" aria-label="Link gambar"><button class="pri">Muat</button>
+<label class="btn"><svg class="i"><use href="#i-up"/></svg>Upload<input id="f" type="file" accept="image/*" multiple hidden></label></form>
+<div id="strip" class="strip"></div>
+<p id="empty" class="empty">Belum ada gambar. Tempel link di atas untuk mulai.</p>
+<div id="stage" hidden>
+<div class="cmp" id="cmp"><canvas id="b"></canvas><canvas id="a"></canvas><input id="sl" type="range" min="0" max="100" value="50" aria-label="Geser untuk membandingkan sebelum dan sesudah"></div>
+<p class="mono" id="sz"></p>
+</div>
+</div>
+<aside class="panel">
+<div class="grp"><h2>Format</h2>
+<select id="fmt" aria-label="Format"><option value="jpg">JPG</option><option value="png">PNG</option><option value="webp" selected>WEBP</option><option value="avif">AVIF</option><option value="gif">GIF</option><option value="bmp">BMP</option><option value="ico">ICO</option></select>
+<label for="q">Kualitas <span><output data-f="q">80</output>%</span></label><input id="q" type="range" min="10" max="100" value="80"></div>
+<div class="grp"><h2>Ukuran</h2>
+<select id="pre" aria-label="Preset ukuran"><option value="">Ukuran asli</option><option value="1920,1080">1920 x 1080</option><option value="1080,1080">1080 x 1080 (Instagram)</option><option value="1080,1920">1080 x 1920 (Story 9:16)</option><option value="1280,720">1280 x 720 (16:9)</option></select>
+<div class="two"><input id="w" type="number" min="1" max="4096" placeholder="Lebar" aria-label="Lebar"><input id="h" type="number" min="1" max="4096" placeholder="Tinggi" aria-label="Tinggi"></div>
+<div class="two"><button id="rot" type="button"><svg class="i"><use href="#i-rot"/></svg>Putar 90</button><button id="flip" type="button"><svg class="i"><use href="#i-flip"/></svg>Balik</button></div></div>
+<div class="grp"><h2>Efek</h2>
+<select id="fx" aria-label="Filter"><option value="none">Tanpa filter</option><option value="gray">Grayscale</option><option value="sepia">Sepia</option><option value="blur">Blur</option><option value="vintage">Vintage</option><option value="gold">Neon Gold</option><option value="bg">Black and Gold</option></select>
+<label for="br">Brightness <span><output data-f="br">100</output>%</span></label><input id="br" type="range" min="50" max="150" value="100">
+<label for="co">Contrast <span><output data-f="co">100</output>%</span></label><input id="co" type="range" min="50" max="150" value="100">
+<label for="sa">Saturation <span><output data-f="sa">100</output>%</span></label><input id="sa" type="range" min="0" max="200" value="100">
+<label for="hu">Hue <span><output data-f="hu">0</output> deg</span></label><input id="hu" type="range" min="-180" max="180" value="0"></div>
+<div class="grp"><h2>Tambahan</h2>
+<label for="rad">Sudut membulat <span><output data-f="rad">0</output>%</span></label><input id="rad" type="range" min="0" max="100" value="0">
+<label class="chk"><input id="bd" type="checkbox">Border gold</label>
+<label class="chk"><input id="wm" type="checkbox">Watermark LUXYNE</label>
+<input id="tx" type="text" placeholder="Teks di atas foto" aria-label="Teks di atas foto"></div>
+<div class="grp acts">
+<button id="dl" class="pri"><svg class="i"><use href="#i-down"/></svg>Unduh</button>
+<button id="dlall">Unduh semua</button>
+<button id="cl"><svg class="i"><use href="#i-link"/></svg>Copy link</button>
+<button id="cc"><svg class="i"><use href="#i-code"/></svg>Copy code</button></div>
+</aside>
+</div></section>
+
+<section id="photos" hidden>
+<h1>Cari foto gratis</h1>
+<p class="sub">Pencarian mencoba Pixabay, Unsplash, Openverse, Wikimedia, lalu Picsum. Kalau satu sumber gagal, otomatis pindah ke berikutnya.</p>
+<form id="sf" class="row"><input id="sq" placeholder="Contoh: kucing" aria-label="Kata kunci foto"><button class="pri"><svg class="i"><use href="#i-search"/></svg>Cari</button></form>
+<p id="ss" class="mono st">Semua sumber siap</p><div id="pg" class="gal"></div>
+</section>
+
+<section id="videos" hidden>
+<h1>Cari video gratis</h1>
+<p class="sub">Video dari Pixabay, sampai 4K dan tanpa watermark. Butuh key Pixabay di js/config.js.</p>
+<form id="vf" class="row"><input id="vq" placeholder="Contoh: laut" aria-label="Kata kunci video"><button class="pri"><svg class="i"><use href="#i-search"/></svg>Cari</button></form>
+<p id="vs" class="mono st">Siap</p><div id="vg" class="gal"></div>
+</section>
+</main>
+<div id="toast" role="status"></div>
+<script src="js/config.js"></script><script src="js/app.js"></script>
+</body></html>
